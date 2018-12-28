@@ -2,7 +2,6 @@
 import pygame
 import time
 import sys
-import toel
 from pygame.locals import *     # pygame常量
 from random import randint
 
@@ -72,7 +71,9 @@ class TankMenue(object):       # 游戏开始界面
         text_sf1 = font1.render("(测试版就是会有很多bug)", True, (88,87,86))     # 文字，平滑锯齿,颜色
         text_sf2 = font.render("调整难度请按数字0-2", True, (255, 255, 0))     # 文字，平滑锯齿,颜色
         text_sf3 = font.render("当前难度：%d" % difficulty, True, (255, 255, 0))     # 文字，平滑锯齿,颜色
-        return text_sf, text_sf1, text_sf2, text_sf3
+        text_sf4 = font.render("按Backspace重新开始", True, (255, 0, 0))     # 文字，平滑锯齿,颜色
+        text_sf5 = font.render("按Esc退出游戏", True, (255, 0, 0))     # 文字，平滑锯齿,颜色
+        return text_sf, text_sf1, text_sf2, text_sf3, text_sf4, text_sf5
 
 
 class TankMain(object):
@@ -196,7 +197,9 @@ class TankMain(object):
         text_sf1 = font.render("敌方坦克数量：%d" % len(self.enemy_list), True, (255, 255, 0))     # 文字，平滑锯齿,颜色
         text_sf2 = font.render("我方炮弹数量：%d" % len(self.my_Tank_missile_list), True, (255, 255, 0))     # 文字，平滑锯齿,颜色
         text_sf3 = font.render("我方坦克生命：%d" % TankMain.my_Tank.live, True, (255, 255, 0))     # 文字，平滑锯齿,颜色
-        return text_sf, text_sf1, text_sf2, text_sf3
+        text_sf4 = font.render("按Esc暂停游戏", True, (255, 0, 0))     # 文字，平滑锯齿,颜色
+        text_sf5 = font.render("按Enter返回游戏", True, (255, 0, 0))     # 文字，平滑锯齿,颜色
+        return text_sf, text_sf1, text_sf2, text_sf3, text_sf4, text_sf5
 
 
 class BaseItem(pygame.sprite.Sprite):
@@ -294,7 +297,7 @@ class Enemy_Tank(Tank):
     def __init__(self, screen):
         super().__init__(screen, randint(1, 15)*50, TankMain.game_rect_u+5)
         self.tank_own = "enemy"
-        self.tank_image("01")
+        self.tank_image("02")
         self.step = randint(80, 200)
         self.random_direction()
         self.tank_speed = TankMain.wave + 1
@@ -427,7 +430,7 @@ class Explode(BaseItem):
 
     def display(self):
         if self.live:
-            if self.step == 10:       # 最后一张图片显示了
+            if self.step == 8:       # 最后一张图片显示了
                 self.live = False
             else:
                 if self.step <= 5:
@@ -457,11 +460,4 @@ class Wall(BaseItem):
 
 
 if __name__ == "__main__":
-    try:
-        toel.AutoBackup("H:\Learn\Project", "G:\Projects")
-    except Exception:
-        try:
-            toel.AutoBackup("I:\Learn\Project", "D:\Projects")
-        except Exception:
-            pass
-TankMenue().mainMenue()
+    TankMenue().mainMenue()
